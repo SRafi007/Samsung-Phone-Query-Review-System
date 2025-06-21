@@ -1,55 +1,53 @@
 # chatbot/retriever.py
 
-import os
 import faiss
 import pickle
-from typing import List, Tuple
-from chatbot.embeddings import embed_texts
+from sentence_transformers import SentenceTransformer
+from config.database import SessionLocal
+from database.models import Phone
+from chatbot.embeddings import FAISS_INDEX_FILE, METADATA_FILE, EMBEDDING_MODEL_NAME
 
-INDEX_FILE = "chatbot/faiss_index.idx"
-DOCS_FILE = "chatbot/faiss_docs.pkl"
 
-
-def build_faiss_index(texts: List[str], index_path=INDEX_FILE, doc_path=DOCS_FILE):
+def load_faiss_index():
     """
-    Build a FAISS index from a list of texts and save it.
+    Loads the FAISS index and metadata from disk.
     """
-    print("🔧 Building FAISS index...")
-    embeddings = embed_texts(texts)
-
-    dim = len(embeddings[0])
-    index = faiss.IndexFlatL2(dim)
-    index.add(embeddings)
-
-    # Save index
-    faiss.write_index(index, index_path)
-
-    # Save original text chunks
-    with open(doc_path, "wb") as f:
-        pickle.dump(texts, f)
-
-    print(f"✅ Index saved to {index_path}, {len(texts)} chunks")
+    index = faiss.read_index(FAISS_INDEX_FILE)
+    with open(METADATA_FILE, "rb") as f:
+        metadata = pickle.load(f)
+    return index, metadata
 
 
-def search_index(query: str, top_k=5) -> List[Tuple[str, float]]:
+def search_phones(query: str, top_k: int = 3):
     """
-    Load the FAISS index and search for similar specs.
-    Returns: List of (text, similarity_score)
+    Returns top_k relevant phones based on the query.
     """
-    if not os.path.exists(INDEX_FILE) or not os.path.exists(DOCS_FILE):
-        raise FileNotFoundError("❌ FAISS index or docs not found. Build it first.")
+    # Load index and metadata
+    index, metadata = load_faiss_index()
 
-    # Load
-    index = faiss.read_index(INDEX_FILE)
-    with open(DOCS_FILE, "rb") as f:
-        docs = pickle.load(f)
+    # Load embedding model and embed query
+    model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+    query_vector = model.encode([query])
 
-    query_vec = embed_texts([query])[0]
-    D, I = index.search([query_vec], top_k)  # distances, indices
+    # Search FAISS index
+    distances, indices = index.search(query_vector, top_k)
 
+    # Map results back to phone records
+    db = SessionLocal()
     results = []
-    for idx, dist in zip(I[0], D[0]):
-        if idx < len(docs):
-            results.append((docs[idx], float(dist)))
+    for idx in indices[0]:
+        if idx < len(metadata):
+            phone_id = metadata[idx]["id"]
+            phone = db.query(Phone).filter(Phone.id == phone_id).first()
+            if phone:
+                results.append(phone)
 
     return results
+
+
+# Test
+if __name__ == "__main__":
+    results = search_phones("Which Samsung phone has the best battery life?", top_k=3)
+    print("\nTop matching phones:")
+    for phone in results:
+        print(f"📱 {phone.name} — Battery: {phone.battery}")

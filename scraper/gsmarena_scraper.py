@@ -7,7 +7,10 @@ from config.database import SessionLocal
 from database.models import Phone, Specification
 
 BASE_URL = "https://www.gsmarena.com/"
-SAMSUNG_PHONE_LIST_URL = f"{BASE_URL}samsung-phones-9.php"
+# SAMSUNG_PHONE_LIST_URL = f"{BASE_URL}samsung-phones-9.php"
+SAMSUNG_PHONE_LIST_URL = (
+    f"{BASE_URL}samsung-phones-f-9-17-r1-p1.php"  # for most popular phones
+)
 
 
 def get_phone_links(limit=15):
@@ -358,7 +361,7 @@ if __name__ == "__main__":
     db = SessionLocal()
 
     try:
-        links = get_phone_links(limit=5)  # Start with fewer links for testing
+        links = get_phone_links(limit=15)  # Start with fewer links for testing
 
         if not links:
             print("❌ No phone links found!")

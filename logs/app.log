@@ -1,0 +1,4 @@
+[2025-06-23 18:29:21] [INFO] TestLogger: This is an info message.
+[2025-06-23 18:29:21] [DEBUG] TestLogger: This is a debug message.
+[2025-06-23 18:29:21] [WARNING] TestLogger: This is a warning.
+[2025-06-23 18:29:21] [ERROR] TestLogger: This is an error.

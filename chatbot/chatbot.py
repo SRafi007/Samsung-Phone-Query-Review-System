@@ -8,7 +8,7 @@ import re
 
 MODEL_NAME = "google/flan-t5-xl"
 
-print("🔄 Loading model...")
+print("Loading model...")
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_NAME)
 
@@ -49,7 +49,7 @@ def create_detailed_response(query: str, phones: list) -> str:
         for i, phone in enumerate(phones[:3], 1):
             response += f"{i}. **{phone.name}** - {phone.battery}\n"
         response += (
-            "\n💡 All these phones have 5000 mAh batteries for excellent all-day usage."
+            "\n All these phones have 5000 mAh batteries for excellent all-day usage."
         )
 
     elif (
@@ -98,13 +98,13 @@ def answer_query(query: str, top_k: int = 5) -> str:
     """
     Runs the full chatbot pipeline: retrieve → analyze → generate detailed response.
     """
-    print("🔎 Retrieving relevant phones...")
+    print(" Retrieving relevant phones...")
     phones = search_phones(query, top_k=top_k)
 
     if not phones:
         return "Sorry, I couldn't find any relevant Samsung phones for your question."
 
-    print("🧠 Creating detailed response...")
+    print(" Creating detailed response...")
 
     # Try the model approach first
     prompt = generate_prompt(query, phones[:3])
@@ -134,6 +134,7 @@ def answer_query(query: str, top_k: int = 5) -> str:
     return create_detailed_response(query, phones)
 
 
+"""
 # Test it
 if __name__ == "__main__":
     test_queries = [
@@ -149,3 +150,4 @@ if __name__ == "__main__":
         response = answer_query(query)
         print(response)
         print()
+"""

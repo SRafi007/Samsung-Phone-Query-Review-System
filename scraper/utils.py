@@ -30,5 +30,5 @@ def fetch_html(url: str, delay: bool = True) -> BeautifulSoup:
         return BeautifulSoup(response.text, "lxml")
 
     except requests.RequestException as e:
-        print(f"❌ Error fetching {url}: {str(e)}")
+        print(f"Error fetching {url}: {str(e)}")
         raise Exception(f"Failed to fetch {url}: {str(e)}")

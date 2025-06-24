@@ -33,7 +33,7 @@ def search_phones(query: str, top_k: int = 5):
     index, metadata = load_faiss_index()
 
     if index is None:
-        print("❌ Could not load FAISS index. Falling back to simple search.")
+        print(" Could not load FAISS index. Falling back to simple search.")
         return simple_search(query, top_k)
 
     # Load embedding model and embed query

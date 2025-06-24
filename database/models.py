@@ -13,8 +13,6 @@ class Phone(Base):
     name = Column(String, unique=True, nullable=False)
     url = Column(String, unique=True, nullable=False)
     image = Column(String, nullable=True)
-
-    # 🔽 New structured fields for easy querying/comparison
     release_date = Column(String)
     display_size = Column(String)
     resolution = Column(String)
@@ -28,7 +26,6 @@ class Phone(Base):
     dimensions = Column(String)
     weight = Column(String)
 
-    # Relationship
     specifications = relationship(
         "Specification", back_populates="phone", cascade="all, delete"
     )

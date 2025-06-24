@@ -25,4 +25,4 @@ app.include_router(api_router)
 # ✅ Root route (health check)
 @app.get("/")
 def read_root():
-    return {"message": "🚀 Samsung Query API is live!"}
+    return {"message": "Samsung Query API is live!"}

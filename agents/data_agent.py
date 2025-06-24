@@ -45,12 +45,12 @@ def format_phone_specs(data: dict) -> str:
     if "error" in data:
         return data["error"]
 
-    parts = ["📱 Phone Specifications:\n"]
+    parts = [" Phone Specifications:\n"]
     for key, val in data["structured"].items():
         if val:
             parts.append(f"{key}: {val}")
 
-    parts.append("\n📋 Additional Specifications:\n")
+    parts.append("\n Additional Specifications:\n")
     for key, val in data["extra"].items():
         parts.append(f"{key}: {val}")
 

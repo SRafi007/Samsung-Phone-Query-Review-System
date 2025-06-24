@@ -28,7 +28,7 @@ def get_review_specs(phone_name: str):
 @router.get("/{phone_name}", response_model=ReviewResponse)
 def get_review(phone_name: str):
     """
-    Generate a review and display specs for a Samsung phone.
+    Generate a review for a Samsung phone.
     """
     result = get_phone_review(phone_name)
 

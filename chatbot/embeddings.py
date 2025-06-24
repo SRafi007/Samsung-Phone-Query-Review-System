@@ -138,8 +138,10 @@ def verify_index():
         return False
 
 
+"""
 if __name__ == "__main__":
-    print("🚀 Building FAISS index for Samsung phone search...")
+    print(" Building FAISS index for Samsung phone search...")
     build_faiss_index()
-    print("\n🔍 Verifying index...")
+    print("\n Verifying index...")
     verify_index()
+"""

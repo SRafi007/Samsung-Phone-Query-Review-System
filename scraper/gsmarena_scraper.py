@@ -255,7 +255,7 @@ def scrape_phone_details(url: str) -> dict:
                             phone_data["network"] = value
 
     else:
-        print("❌ No spec table found!")
+        print("No spec table found!")
 
     # Debug output
     print(f"Extracted structured data:")
@@ -268,13 +268,13 @@ def scrape_phone_details(url: str) -> dict:
 
 def save_phone_to_db(phone_data: dict, db):
     if not phone_data.get("name"):
-        print("⚠️ Skipping phone with no name")
+        print("Skipping phone with no name")
         return
 
     # Check if phone already exists
     existing = db.query(Phone).filter(Phone.name == phone_data["name"]).first()
     if existing:
-        print(f"⚠️ Skipping {phone_data['name']} (already in DB)")
+        print(f"Skipping {phone_data['name']} (already in DB)")
         return
 
     # Create Phone instance
@@ -314,7 +314,7 @@ def save_phone_to_db(phone_data: dict, db):
         print(f"✅ Saved to DB: {phone.name} with {len(specs)} specifications")
 
     except Exception as e:
-        print(f"❌ Error saving {phone_data['name']}: {str(e)}")
+        print(f"Error saving {phone_data['name']}: {str(e)}")
         db.rollback()
 
 
@@ -364,7 +364,7 @@ if __name__ == "__main__":
         links = get_phone_links(limit=15)  # Start with fewer links for testing
 
         if not links:
-            print("❌ No phone links found!")
+            print("No phone links found!")
         else:
             # Debug first URL structure
             print("=== DEBUGGING FIRST URL ===")
@@ -377,10 +377,10 @@ if __name__ == "__main__":
                     phone_data = scrape_phone_details(url)
                     save_phone_to_db(phone_data, db)
                 except Exception as e:
-                    print(f"❌ Error processing {url}: {str(e)}")
+                    print(f"Error processing {url}: {str(e)}")
                     continue
 
     except Exception as e:
-        print(f"❌ Fatal error: {str(e)}")
+        print(f"Fatal error: {str(e)}")
     finally:
         db.close()

@@ -134,6 +134,7 @@ def simple_search(query: str, top_k: int = 5):
     return [phone for phone, score in scored_phones[:top_k] if score > 0]
 
 
+"""
 # Test
 if __name__ == "__main__":
     test_queries = [
@@ -148,3 +149,4 @@ if __name__ == "__main__":
         print("Results:")
         for i, phone in enumerate(results, 1):
             print(f"{i}. {phone.name} - {phone.camera_main}")
+"""

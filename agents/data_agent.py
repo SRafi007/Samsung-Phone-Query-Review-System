@@ -57,9 +57,11 @@ def format_phone_specs(data: dict) -> str:
     return "\n".join(parts)
 
 
+"""
 # Test run
 if __name__ == "__main__":
     name = "Galaxy S23"
     data = get_phone_data(name)
     formatted = format_phone_specs(data)
     print(formatted)
+"""

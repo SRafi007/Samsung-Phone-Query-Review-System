@@ -51,15 +51,3 @@ Question: {user_query}
 Answer with details and comparison:"""
 
     return prompt
-
-
-# Test it
-if __name__ == "__main__":
-    from chatbot.retriever import search_phones
-
-    query = "Which Samsung phone has the best camera?"
-    phones = search_phones(query)
-    prompt = generate_prompt(query, phones)
-
-    print("Generated Prompt:\n")
-    print(prompt)

@@ -9,7 +9,7 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# ✅ CORS Middleware
+#  CORS Middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # 👈 Replace * with specific domains in production
@@ -18,11 +18,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ✅ Add API routes
+#  Add API routes
 app.include_router(api_router)
 
 
-# ✅ Root route (health check)
+#  Root route (health check)
 @app.get("/")
 def read_root():
     return {"message": "Samsung Query API is live!"}

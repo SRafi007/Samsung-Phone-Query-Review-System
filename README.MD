@@ -4,6 +4,9 @@ An system that scrapes real-world Samsung phone specifications, answers natural 
 
 🚀 Built using Python, BeautifulSoup, PostgreSQL, FastAPI, FAISS, HuggingFace Transformers, and SQLAlchemy.
 
+![Preview](https://github.com/SRafi007/Visual-Assets-for-GitHub-Projects/blob/main/public/phone_review_ss.png?raw=true)
+
+
 ## 📌 Table of Contents
 
 - [Project Overview](#project-overview)
